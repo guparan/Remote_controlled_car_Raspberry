@@ -17,6 +17,9 @@ void main()
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
 	char commande;
+	
+	// Initialisation des GPIO
+	initGPIO();
 
     // Crée un socket de communication
 	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
@@ -86,7 +89,6 @@ void main()
 		
 		lu = read(socketClient,  &commande, sizeof char);
 		
-		
 		if(lu == -1)
 		{
 			printf("Error reading from socketClient ! \n");
@@ -118,9 +120,4 @@ void main()
 		}
 	   
     }
-	
-	
-	
-	
-	
 }
