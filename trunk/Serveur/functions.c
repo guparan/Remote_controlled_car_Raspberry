@@ -15,3 +15,13 @@ void avancer()
     digitalWrite (PIN7, 1);      // On
     digitalWrite (PIN23, 0);     // Off
 }
+
+void reculer()
+{
+
+}
+
+void tourner(Direction d)
+{
+
+}

@@ -12,7 +12,6 @@
 
 void main()
 {
-	
     int socketServeur;
     int socketClient;
 	int clientConnecte = 0;
@@ -67,8 +66,7 @@ void main()
 	printf("Attente d'une demande de connexion (quitter avec Cltrl-C)\n\n");
 		
     while(1)
-    {
-       
+    {       
 		if(clientConnecte == 0)
 		{
 			socketClient = accept(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse);
@@ -92,7 +90,7 @@ void main()
 			clientConnecte = 1;
 		}
 		
-		lu = read(socketClient,  &commande, sizeof char);
+		lu = read(socketClient,  &commande, 1);
 		
 		if(lu == -1)
 		{
@@ -108,7 +106,7 @@ void main()
 			printf("Nombre d'octets lu incorrect\n");
 		}
 		
-		switch commande
+		switch(commande)
 		{
 			case 'a' :
 				avancer();
@@ -122,7 +120,7 @@ void main()
 			case 'g' :
 				tourner(GAUCHE);
 				break;
-		}
-	   
+		}	   
     }
+	
 }
