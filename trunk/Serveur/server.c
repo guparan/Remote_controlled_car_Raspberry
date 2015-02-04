@@ -1,8 +1,8 @@
 // Fonctions
 #include "functions.h"
 #include <sys/socket.h>
-
-typedef enum {GAUCHE, DROITE} Orientation;
+#include <sys/types.h>
+#include <netinet/in.h>
 
 
 void main()
@@ -21,7 +21,7 @@ void main()
 	// Initialisation des GPIO
 	initGPIO();
 
-    // Crée un socket de communication
+    // Cree un socket de communication
 	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
     if(socketServeur == -1)
     {
