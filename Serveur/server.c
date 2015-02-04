@@ -10,17 +10,18 @@
 #include "functions.h"
 
 
-void main()
+int main()
 {
     int socketServeur;
     int socketClient;
 	int clientConnecte = 0;
     int i;
-	int lu = 0;
+	int lu = -1;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
-	char commande;
+	char commande = 'b';
+	char buffer[10];
 	
 	// Initialisation des GPIO
 	initGPIO();
@@ -90,20 +91,26 @@ void main()
 			clientConnecte = 1;
 		}
 		
-		lu = read(socketClient,  &commande, 1);
+		lu = read(socketClient,  buffer, 9);
+		
+		printf("lu = %d\n", lu);
+		
+		buffer[9] = '\0';
+		printf("buffer = %s\n", buffer);
 		
 		if(lu == -1)
 		{
 			printf("Error reading from socketClient ! \n");
             printf("errno = %d \n", errno);
+			break;
+		}
+		
+		if(lu == 0)
+		{
+			printf("Socket closed ! \n");
 			close(socketClient);
 			clientConnecte = 0;
 			continue;
-		}
-		
-		if(lu != 1)
-		{
-			printf("Nombre d'octets lu incorrect\n");
 		}
 		
 		switch(commande)
@@ -123,4 +130,8 @@ void main()
 		}	   
     }
 	
+	close(socketClient);
+	close(socketServeur);
+	
+	return 0;
 }
