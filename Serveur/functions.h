@@ -10,12 +10,12 @@
 #define PIN23 4
 #define PIN24 5
 
-typedef enum {GAUCHE, DROITE} Orientation;
+typedef enum {GAUCHE, DROITE} Direction;
 
 
 void avancer();
 void reculer();
-void tourner(Orientation direction);
+void tourner(Direction d);
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
 
