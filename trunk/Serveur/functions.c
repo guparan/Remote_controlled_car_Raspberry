@@ -2,13 +2,11 @@
 
 void initGPIO()
 {
-	pinMode (PIN23, OUTPUT);    
-	pinMode (PIN24, OUTPUT);      
-	pinMode (PIN8, OUTPUT);
-	pinMode (PIN7, OUTPUT);  
-	
+	pinMode(PIN23, OUTPUT);
+	pinMode(PIN24, OUTPUT);
+	pinMode(PIN8, OUTPUT);
+	pinMode(PIN7, OUTPUT);
 }
-
 
 void avancer()
 {

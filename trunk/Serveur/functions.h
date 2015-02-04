@@ -1,6 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+#include "wiringPi.h"
+
 #define PORT 8080
 #define CLIENT_MAX 1
 #define PIN7 11
@@ -16,7 +18,6 @@ void reculer();
 void tourner(Orientation direction);
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
-
 
 #endif
 
