@@ -1,8 +1,13 @@
-// Fonctions
+
+#include <sys/socket.h> // For sockets
+#include <sys/types.h> // For sockets
+#include <netinet/in.h> // For sockets
+#include <netdb.h> // For sockets
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+
 #include "functions.h"
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
 
 
 void main()
