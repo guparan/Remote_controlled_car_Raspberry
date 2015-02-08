@@ -20,7 +20,7 @@ int main()
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
-	char commande = 'd';
+	char commande = 'a';
 	char buffer[10];
 	
 	// Initialisation des GPIO

@@ -2,6 +2,7 @@
 #define FUNCTIONS_H
 
 #include <wiringPi.h>
+//#include <softPwm.h>
 
 #define PORT 8080
 #define CLIENT_MAX 1
