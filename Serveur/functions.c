@@ -6,18 +6,27 @@ void initGPIO()
 
 	if(wiringPiSetup() == -1) return 1;
 	
-	pinMode(PIN23, OUTPUT);
-	pinMode(PIN24, OUTPUT);
-	pinMode(PIN8, OUTPUT);
-	pinMode(PIN7, OUTPUT);
+	//pinMode(PIN23, OUTPUT);
+	//pinMode(PIN24, OUTPUT);
+	//pinMode(PIN8, OUTPUT);
+	//pinMode(PIN7, OUTPUT);
+	softPwmCreate(PIN23,0,1000);
+        softPwmCreate(PIN24,0,1000);
+        softPwmCreate(PIN8,0,1000);
+        softPwmCreate(PIN7,0,1000);
 }
 
 void avancer()
 {
-	digitalWrite (PIN24, 1);     // On
-    digitalWrite (PIN8, 0);      // Off
-    digitalWrite (PIN7, 1);      // On
-    digitalWrite (PIN23, 0);     // Off
+    //digitalWrite (PIN24, 1);     // On
+    //digitalWrite (PIN8, 0);      // Off
+    //digitalWrite (PIN7, 1);      // On
+    //digitalWrite (PIN23, 0);     // Off
+   softPwmWrite(PIN24,500);
+   softPwmWrite(PIN8,0);
+   softPwmWrite(PIN7,500);
+   softPwmWrite(PIN23,0);
+  
 }
 
 void reculer()
