@@ -10,6 +10,10 @@ void initGPIO()
 
 void avancer()
 {
+	pinMode(PIN23, OUTPUT);
+	pinMode(PIN24, OUTPUT);
+	pinMode(PIN8, OUTPUT);
+	pinMode(PIN7, OUTPUT);
 	digitalWrite (PIN24, 1);     // On
     digitalWrite (PIN8, 0);      // Off
     digitalWrite (PIN7, 1);      // On
