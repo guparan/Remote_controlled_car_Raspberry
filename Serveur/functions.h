@@ -1,7 +1,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#include "wiringPi.h"
+#include <wiringPi.h>
 
 #define PORT 8080
 #define CLIENT_MAX 1
