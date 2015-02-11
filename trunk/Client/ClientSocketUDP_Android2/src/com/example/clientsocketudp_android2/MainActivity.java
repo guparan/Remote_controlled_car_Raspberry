@@ -5,26 +5,26 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.concurrent.TimeUnit;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+
 
 public class MainActivity extends Activity {
 
-    TextView textResponse, textPerformance;
     EditText editTextAddress, editTextPort;
-    Button buttonConnect, buttonClear, buttonOK;
+    Button buttonConnect, cmdA, cmdR, cmdG, cmdD;
     Socket socket;
     //BufferedReader in;
-   BufferedWriter out;
-    
+   BufferedWriter out;    
     
 
     @Override
@@ -34,31 +34,20 @@ public class MainActivity extends Activity {
 
         editTextAddress = (EditText)findViewById(R.id.address);
         editTextPort = (EditText)findViewById(R.id.port);
+        
         buttonConnect = (Button)findViewById(R.id.connect);
-        buttonClear = (Button)findViewById(R.id.clear);
-        buttonOK = (Button)findViewById(R.id.OK);
-        textResponse = (TextView)findViewById(R.id.response);
-        textPerformance = (TextView)findViewById(R.id.Performance); 
-        //textPerformance.setText("Hello");
+        
+        cmdA = (Button)findViewById(R.id.cmdA);
+        cmdR = (Button)findViewById(R.id.cmdR);
+        cmdD = (Button)findViewById(R.id.cmdD);
+        cmdG = (Button)findViewById(R.id.cmdG);
 
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
-        buttonClear.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                textResponse.setText("");
-            }});
-        
-        buttonOK.setOnClickListener( 
-        	new OnClickListener() 
-	        {
-	            @Override
-	            public void onClick(View v) 
-	            {	                
-	                //textPerformance.setText( String.valueOf(message_distant) );
-	            }
-	        }
-        );
+
+        cmdA.setOnTouchListener(cmdAOnLongClickListener);
+        cmdR.setOnLongClickListener(cmdROnLongClickListener);
+        cmdD.setOnLongClickListener(cmdDOnLongClickListener);
+        cmdG.setOnLongClickListener(cmdGOnLongClickListener);
      }
 
     OnClickListener buttonConnectOnClickListener = new OnClickListener()
@@ -71,6 +60,71 @@ public class MainActivity extends Activity {
         }
 	};
 
+	 OnTouchListener cmdAOnLongClickListener = new OnTouchListener() {
+		
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			try {
+				out.write('a');
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
+		}
+	};
+	   
+	 OnLongClickListener cmdROnLongClickListener = new OnLongClickListener()
+	 {			
+			@Override
+			public boolean onLongClick(View v) 
+			{
+					try {
+						out.write('r');
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		
+	 OnLongClickListener cmdDOnLongClickListener = new OnLongClickListener() 
+	 {
+			@Override
+			public boolean onLongClick(View v) 
+			{				
+					try {
+						out.write('d');
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+			 
+		OnLongClickListener cmdGOnLongClickListener = new OnLongClickListener() 
+		{					
+			@Override
+			public boolean onLongClick(View v) 
+			{
+					try {
+						out.write('g');
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
         String dstAddress;
@@ -92,42 +146,16 @@ public class MainActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-    		
-    		while(true)
-    		{
-    			try {
-					out.write('a');
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-					              
-          
-				
-                
-    		}
-        }
-        
-        String asciiValuesOf(char[] text, int start, int length)
-        {
-			 String asciiValues = new String();
-			 
-			 for(int i=start ; i<start+length ; i++)
-			 {
-				 asciiValues = asciiValues.concat( String.valueOf((int)text[i]) );
-			 }
-				
-			 return asciiValues;
-        }
-        
-        
-
-        @Override
-        protected void onPostExecute(Void result) {
-            textResponse.setText(response);
-            super.onPostExecute(result);
-        }
-
+        	
+        	try {
+				out.write('c');
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
+			return null;
+        }        
     }
 
 }

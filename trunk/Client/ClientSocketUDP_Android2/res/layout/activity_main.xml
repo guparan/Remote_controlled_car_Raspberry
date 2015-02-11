@@ -8,36 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.clientsocketudp_android2.MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-    <TextView
-        android:id="@+id/response"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/response"
-        android:layout_below="@+id/textView1"
-        android:autoLink="web"
-        android:text="http://android-er.blogspot.com/"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/response"
-        android:layout_below="@+id/textView2"
         android:ems="10"
         android:hint="dstAddress"
-		android:text="192.168.0.101" >
+        android:text="192.168.0.13" >
+
         <requestFocus />
     </EditText>
 
@@ -49,7 +27,7 @@
         android:layout_below="@+id/address"
         android:ems="10"
         android:hint="dstPort"
-		android:text="8080" />
+        android:text="8080" />
 
     <Button
         android:id="@+id/connect"
@@ -59,29 +37,41 @@
         android:layout_below="@+id/port"
         android:text="Connect..." />
 
-    <EditText
-        android:id="@+id/Performance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/clear"
-        android:layout_below="@+id/clear"
-        android:ems="10"
-        android:hint="Performance Voiture" />
-    
     <Button
-        android:id="@+id/clear"
-        android:layout_width="match_parent"
+        android:id="@+id/cmdR"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/connect"
         android:layout_below="@+id/connect"
-        android:text="Clear" />
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="38dp"
+        android:text="R" />
 
     <Button
-        android:id="@+id/OK"
-        android:layout_width="match_parent"
+        android:id="@+id/cmdA"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Performance"
-        android:layout_below="@+id/Performance"
-        android:text="OK" />
+        android:layout_alignLeft="@+id/connect"
+        android:layout_below="@+id/cmdR"
+        android:layout_marginLeft="42dp"
+        android:text="A" />
+
+    <Button
+        android:id="@+id/cmdD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/connect"
+        android:layout_below="@+id/cmdA"
+        android:layout_marginLeft="42dp"
+        android:text="D" />
+
+    <Button
+        android:id="@+id/cmdG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/connect"
+        android:layout_below="@+id/cmdD"
+        android:layout_marginLeft="42dp"
+        android:text="G" />
 
 </RelativeLayout>
