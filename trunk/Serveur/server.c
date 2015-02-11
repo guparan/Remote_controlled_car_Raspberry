@@ -90,7 +90,7 @@ int main()
 			clientConnecte = 1;
 		}
 		
-		lu = read(socketClient,  commande, 1);
+		lu = read(socketClient, &commande, 1);
 		
 		printf("lu = %d\n", lu);		
 		printf("commande = %c\n", commande);
