@@ -16,12 +16,11 @@ int main()
     int socketClient;
 	int clientConnecte = 0;
     int i;
-	int lu = -14; // remettre a -1
+	int lu = -1;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
-	char commande = 't';
-	char buffer[10];
+	char commande = '\0';
 	
 	// Initialisation des GPIO
 	initGPIO();
@@ -91,14 +90,10 @@ int main()
 			clientConnecte = 1;
 		}
 		
-		lu = read(socketClient,  buffer, 9);
+		lu = read(socketClient,  commande, 1);
 		
-		printf("lu = %d\n", lu);
-		
-		buffer[9] = '\0';		
-		printf("buffer = %s\n", buffer);
-		
-		//printf("commande = %c\n", commande);
+		printf("lu = %d\n", lu);		
+		printf("commande = %c\n", commande);
 		
 		if(lu == -1)
 		{
