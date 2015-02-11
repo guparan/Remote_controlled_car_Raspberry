@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -101,12 +102,8 @@ public class MainActivity extends Activity {
 					e.printStackTrace();
 				}
 					              
-                try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+          
+				
                 
     		}
         }
