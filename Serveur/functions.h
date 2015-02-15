@@ -12,11 +12,13 @@
 #define PIN24 5
 
 typedef enum {GAUCHE, DROITE} Direction;
+typedef enum {UP, DOWN} SpeedChange;
 
 
-void avancer();
-void reculer();
-void tourner(Direction d);
+void avancer(int speed);
+void reculer(int speed);
+void tourner(Direction d, int speed);
+int speedChange(SpeedChange s, int speed); 
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
 
