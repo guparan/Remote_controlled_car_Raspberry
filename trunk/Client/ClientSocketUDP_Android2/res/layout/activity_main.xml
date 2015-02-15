@@ -38,40 +38,57 @@
         android:text="Connect..." />
 
     <Button
-        android:id="@+id/cmdR"
+        android:id="@+id/cmdDown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/cmdD"
         android:layout_alignLeft="@+id/connect"
-        android:layout_below="@+id/connect"
-        android:layout_marginLeft="42dp"
-        android:layout_marginTop="38dp"
-        android:text="R" />
-
-    <Button
-        android:id="@+id/cmdA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connect"
-        android:layout_below="@+id/cmdR"
-        android:layout_marginLeft="42dp"
-        android:text="A" />
-
-    <Button
-        android:id="@+id/cmdD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connect"
-        android:layout_below="@+id/cmdA"
-        android:layout_marginLeft="42dp"
-        android:text="D" />
+        android:layout_marginLeft="14dp"
+        android:text="Down" />
 
     <Button
         android:id="@+id/cmdG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connect"
-        android:layout_below="@+id/cmdD"
-        android:layout_marginLeft="42dp"
+        android:layout_alignBaseline="@+id/cmdR"
+        android:layout_alignBottom="@+id/cmdR"
+        android:layout_alignRight="@+id/cmdDown"
         android:text="G" />
+
+    <Button
+        android:id="@+id/cmdD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/connect"
+        android:layout_below="@+id/cmdUp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="36dp"
+        android:text="D" />
+
+    <Button
+        android:id="@+id/cmdR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/cmdD"
+        android:layout_alignBottom="@+id/cmdD"
+        android:layout_centerHorizontal="true"
+        android:text="R" />
+
+    <Button
+        android:id="@+id/cmdUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cmdD"
+        android:layout_below="@+id/connect"
+        android:layout_marginTop="27dp"
+        android:text="Up" />
+
+    <Button
+        android:id="@+id/cmdA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cmdD"
+        android:layout_alignLeft="@+id/cmdR"
+        android:text="A" />
 
 </RelativeLayout>

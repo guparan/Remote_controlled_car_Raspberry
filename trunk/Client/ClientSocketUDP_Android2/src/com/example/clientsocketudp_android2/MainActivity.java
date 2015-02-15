@@ -21,7 +21,7 @@ import android.widget.EditText;
 public class MainActivity extends Activity {
 
     EditText editTextAddress, editTextPort;
-    Button buttonConnect, cmdA, cmdR, cmdG, cmdD;
+    Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
     Socket socket;
     //BufferedReader in;
    BufferedWriter out;    
@@ -41,13 +41,18 @@ public class MainActivity extends Activity {
         cmdR = (Button)findViewById(R.id.cmdR);
         cmdD = (Button)findViewById(R.id.cmdD);
         cmdG = (Button)findViewById(R.id.cmdG);
+        cmdUp = (Button)findViewById(R.id.cmdUp);
+        cmdDown = (Button)findViewById(R.id.cmdDown);
+
 
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
 
-        cmdA.setOnTouchListener(cmdAOnLongClickListener);
+        cmdA.setOnLongClickListener(cmdAOnLongClickListener);
         cmdR.setOnLongClickListener(cmdROnLongClickListener);
         cmdD.setOnLongClickListener(cmdDOnLongClickListener);
         cmdG.setOnLongClickListener(cmdGOnLongClickListener);
+        cmdUp.setOnLongClickListener(cmdUpOnLongClickListener);
+        cmdDown.setOnLongClickListener(cmdDownOnLongClickListener);
      }
 
     OnClickListener buttonConnectOnClickListener = new OnClickListener()
@@ -60,17 +65,17 @@ public class MainActivity extends Activity {
         }
 	};
 
-	 OnTouchListener cmdAOnLongClickListener = new OnTouchListener() {
+	 OnLongClickListener cmdAOnLongClickListener = new OnLongClickListener() {
 		
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
+		public boolean onLongClick(View v) {
 			try {
 				out.write('a');
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return true;
+			return false;
 		}
 	};
 	   
@@ -125,9 +130,44 @@ public class MainActivity extends Activity {
 			}
 		};
 		
+		OnLongClickListener cmdUpOnLongClickListener = new OnLongClickListener() 
+		{					
+			@Override
+			public boolean onLongClick(View v) 
+			{
+					try {
+						out.write('+');
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		
+		OnLongClickListener cmdDownOnLongClickListener = new OnLongClickListener() 
+		{					
+			@Override
+			public boolean onLongClick(View v) 
+			{
+					try {
+						out.write('+');
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
-        String dstAddress;
+        private static final boolean True = false;
+		String dstAddress;
         int dstPort;
         String response;
 
@@ -146,15 +186,25 @@ public class MainActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        	
-        	try {
-				out.write('c');
-			} catch (IOException e) {
+
+        	while(true)
+        	{
+        		
+        		try {
+					out.write('a');
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        	//try {
+				//out.write('c');
+			//} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				//e.printStackTrace();
+			//}
         	
-			return null;
+			//return null;
         }        
     }
 
