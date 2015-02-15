@@ -17,6 +17,7 @@ int main()
 	int clientConnecte = 0;
     int i;
 	int lu = -1;
+	int speed = 500;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
@@ -113,17 +114,21 @@ int main()
 		switch(commande)
 		{
 			case 'a' :
-				avancer();
+				avancer(speed);
 				break;
 			case 'r' :
-				reculer();
+				reculer(speed);
 				break;
 			case 'd' :
-				tourner(DROITE);
+				tourner(DROITE, speed);
 				break;
 			case 'g' :
-				tourner(GAUCHE);
+				tourner(GAUCHE, speed);
 				break;
+			case '+' :
+				speed = speedChange(UP, speed);
+			case '-' :
+				speed = speedChange(DOWN, speed);
 		}	   
     }
 	
