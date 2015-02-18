@@ -75,10 +75,10 @@ int speedChange(SpeedChange s, int speed)
 {
 	if(s == UP)
 	{
-		if(speed =! 1000) speed = speed + 100;
+		if(speed != 1000) speed += 100;
 	}
 	else
 	{
-		if(speed =! 0) speed = speed - 100;
+		if(speed != 0) speed -= 100;
 	}
 }
