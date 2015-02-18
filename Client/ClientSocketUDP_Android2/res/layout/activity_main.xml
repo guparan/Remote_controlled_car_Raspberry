@@ -91,4 +91,14 @@
         android:layout_alignLeft="@+id/cmdR"
         android:text="A" />
 
+    <TextView
+        android:id="@+id/outputDebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cmdG"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
 </RelativeLayout>
