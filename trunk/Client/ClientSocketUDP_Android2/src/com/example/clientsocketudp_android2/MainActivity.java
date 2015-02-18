@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,12 +16,14 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 
 public class MainActivity extends Activity {
 
     EditText editTextAddress, editTextPort;
+    TextView outputDebug;
     Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
     Socket socket;
     //BufferedReader in;
@@ -34,6 +37,7 @@ public class MainActivity extends Activity {
 
         editTextAddress = (EditText)findViewById(R.id.address);
         editTextPort = (EditText)findViewById(R.id.port);
+        outputDebug = (TextView)findViewById(R.id.outputDebug);
         
         buttonConnect = (Button)findViewById(R.id.connect);
         
@@ -47,7 +51,7 @@ public class MainActivity extends Activity {
 
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
 
-        cmdA.setOnLongClickListener(cmdAOnLongClickListener);
+        cmdA.setOnTouchListener(cmdAOnLongClickListener);
         cmdR.setOnLongClickListener(cmdROnLongClickListener);
         cmdD.setOnLongClickListener(cmdDOnLongClickListener);
         cmdG.setOnLongClickListener(cmdGOnLongClickListener);
@@ -65,15 +69,51 @@ public class MainActivity extends Activity {
         }
 	};
 
-	 OnLongClickListener cmdAOnLongClickListener = new OnLongClickListener() {
+	 OnTouchListener cmdAOnLongClickListener = new OnTouchListener() {
+		 
+		private Handler mHandler;
+		
+		Runnable mAction = new Runnable() {			
+			@Override
+			public void run()
+			{
+				// TODO Auto-generated method stub
+				//outputDebug.append("a");
+				try {
+					int i = 0;
+					while(true) 
+					{
+						i++;
+						// buffer client : 8192 octets
+						// buffer serveur : 16384 octets
+						if(i==16384) 
+						{
+							out.write('a');
+						}
+						out.write('a');
+					}
+					//outputDebug.append("a");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				mHandler.postDelayed(mAction, 50);
+			}
+		};
 		
 		@Override
-		public boolean onLongClick(View v) {
-			try {
-				out.write('a');
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		public boolean onTouch(View v, MotionEvent event) {
+			if(event.getAction()==MotionEvent.ACTION_DOWN)
+			{
+				if(mHandler!=null ) return true;
+				mHandler = new Handler();
+				mHandler.postDelayed(mAction, 50);
+			}
+			else if (event.getAction()==MotionEvent.ACTION_UP)
+			{
+				if(mHandler == null) return true;
+				mHandler.removeCallbacks(mAction);
+				mHandler=null;
 			}
 			return false;
 		}
@@ -166,8 +206,7 @@ public class MainActivity extends Activity {
 		
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
-        private static final boolean True = false;
-		String dstAddress;
+        String dstAddress;
         int dstPort;
         String response;
 
@@ -186,25 +225,7 @@ public class MainActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
-        	while(true)
-        	{
-        		
-        		try {
-					out.write('a');
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        	}
-        	//try {
-				//out.write('c');
-			//} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			//}
-        	
-			//return null;
+			return null;
         }        
     }
 
