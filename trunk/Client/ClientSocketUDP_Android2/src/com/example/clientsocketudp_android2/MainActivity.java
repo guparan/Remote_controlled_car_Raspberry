@@ -80,18 +80,19 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				//outputDebug.append("a");
 				try {
-					int i = 0;
-					while(true) 
-					{
-						i++;
+					//int i = 0;
+					  //while(true) 
+					  //{
+						//i++;
 						// buffer client : 8192 octets
 						// buffer serveur : 16384 octets
-						if(i==16384) 
-						{
-							out.write('a');
-						}
-						out.write('a');
-					}
+						//if(i==16384) 
+						//{
+							//out.write('a');
+						//}
+						out.write("aaaaa");
+						outputDebug.append("a");
+					//}
 					//outputDebug.append("a");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
