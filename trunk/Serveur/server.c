@@ -19,6 +19,7 @@ int main()
     int i;
 	int lu = -1;
 	int speed = 500;
+	int stopCount = 0;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
@@ -101,12 +102,14 @@ int main()
 		{
 			if(errno == EAGAIN) // Nothing to read
 			{
-				if(etat != REPOS)
+				if(etat != REPOS && stopCount > 500)
 				{
 					etat = REPOS;
 					avancer(0); // stop motors
 					printf("STOP\n");
+					stopCount = 0;
 				}
+				stopCount++;
 				continue;
 			}
 			else
