@@ -3,6 +3,7 @@ package com.example.clientsocketudp_android2;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import android.os.AsyncTask;
@@ -77,28 +78,16 @@ public class MainActivity extends Activity {
 			@Override
 			public void run()
 			{
-				// TODO Auto-generated method stub
-				//outputDebug.append("a");
 				try {
-					//int i = 0;
-					  //while(true) 
-					  //{
-						//i++;
-						// buffer client : 8192 octets
-						// buffer serveur : 16384 octets
-						//if(i==16384) 
-						//{
-							//out.write('a');
-						//}
-						out.write("aaaaa");
-						outputDebug.append("a");
-					//}
-					//outputDebug.append("a");
+					out.write('a');
+	    			out.flush();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				mHandler.postDelayed(mAction, 50);
+				outputDebug.append("a");
+
+				mHandler.post(mAction);
 			}
 		};
 		
@@ -108,7 +97,7 @@ public class MainActivity extends Activity {
 			{
 				if(mHandler!=null ) return true;
 				mHandler = new Handler();
-				mHandler.postDelayed(mAction, 50);
+				mHandler.post(mAction);
 			}
 			else if (event.getAction()==MotionEvent.ACTION_UP)
 			{
@@ -218,7 +207,7 @@ public class MainActivity extends Activity {
         	{
         		socket = new Socket(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()) );
         		//in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
-        		out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        		out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()), 1);        		
             } catch (UnknownHostException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -227,7 +216,15 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
 			return null;
-        }        
+        }
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+		}
+        
+        
     }
 
 }
