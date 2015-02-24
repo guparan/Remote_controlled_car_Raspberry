@@ -23,6 +23,7 @@ int main()
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
 	char commande = 'X';
+	Etat etat = REPOS;
 	
 	// Initialisation des GPIO
 	initGPIO();
@@ -93,14 +94,19 @@ int main()
 			clientConnecte = 1;
 		}
 		
-		nanosleep((struct timespec[]){{0, 50000000}}, NULL);
+		nanosleep((struct timespec[]){{0, 10000000}}, NULL);
 		lu = read(socketClient, &commande, 1);
 		
 		if(lu == -1)
 		{
 			if(errno == EAGAIN) // Nothing to read
 			{
-				avancer(0);
+				if(etat != REPOS)
+				{
+					etat = REPOS;
+					avancer(0); // stop motors
+					printf("STOP\n");
+				}
 				continue;
 			}
 			else
@@ -125,10 +131,20 @@ int main()
 		switch(commande)
 		{
 			case 'a' :
-				avancer(speed);
+				if(etat != AVANCE)
+				{
+					etat = AVANCE;
+					printf("AVANCE\n");
+					avancer(speed);
+				}
 				break;
 			case 'r' :
-				reculer(speed);
+				if(etat != RECULE)
+				{
+					etat = RECULE;
+					printf("RECULE\n");
+					reculer(speed);
+				}
 				break;
 			case 'd' :
 				tourner(DROITE, speed);
