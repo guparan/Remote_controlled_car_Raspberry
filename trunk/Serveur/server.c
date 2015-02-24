@@ -13,7 +13,7 @@
 int main()
 {
     int socketServeur;
-    int socketClient;
+    int socketClient = -1;
 	int clientConnecte = 0;
     int i;
 	int lu = -1;
@@ -70,14 +70,18 @@ int main()
     {       
 		if(clientConnecte == 0)
 		{
-			socketClient = accept(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse);
-			
-			if(socketClient == -1 )
+			while( socketClient == -1 )
 			{
-				perror("accept");
-				close(socketClient);
-				close(socketServeur);
-				exit(errno);		
+				socketClient = accept4(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse, SOCK_NONBLOCK);
+				
+				if(socketClient == -1 && errno != EAGAIN )
+				{
+					printf("errno : %d\n", errno);
+					perror("accept");
+					close(socketClient);
+					close(socketServeur);
+					exit(errno);
+				}
 			}
 			
 			printf("Nouveau client !\n");
@@ -107,6 +111,7 @@ int main()
 		{
 			printf("Socket closed ! \n");
 			close(socketClient);
+			socketClient = -1;
 			clientConnecte = 0;
 			continue;
 		}
