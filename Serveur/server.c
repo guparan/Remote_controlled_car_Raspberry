@@ -93,6 +93,7 @@ int main()
 			clientConnecte = 1;
 		}
 		
+		nanosleep((struct timespec[]){{0, 50000000}}, NULL);
 		lu = read(socketClient, &commande, 1);
 		
 		if(lu == -1)
@@ -141,7 +142,6 @@ int main()
 				speed = speedChange(DOWN, speed);
 		}
 		
-		nanosleep((struct timespec[]){{0, 50000000}}, NULL);
 		commande = 'X';
     }
 	
