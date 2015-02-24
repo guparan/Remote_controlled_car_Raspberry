@@ -27,7 +27,7 @@ int main()
 	initGPIO();
 
     // Cree un socket de communication
-	socketServeur = socket(PF_INET, SOCK_STREAM|SOCK_NONBLOCK, 0);
+	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
     if(socketServeur == -1)
     {
         perror("Socket");
@@ -74,7 +74,7 @@ int main()
 			{
 				socketClient = accept4(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse, SOCK_NONBLOCK);
 				
-				if(socketClient == -1 && errno != EAGAIN )
+				if(socketClient == -1 )
 				{
 					printf("errno : %d\n", errno);
 					perror("accept");
@@ -102,9 +102,17 @@ int main()
 		
 		if(lu == -1)
 		{
-			printf("Error reading from socketClient ! \n");
-            printf("errno = %d \n", errno);
-			break;
+			if(errno == EAGAIN) // Nothing to read
+			{
+				avancer(0);
+				continue;
+			}
+			else
+			{
+				printf("Error reading from socketClient ! \n");
+				printf("errno = %d \n", errno);
+				break;
+			}
 		}
 		
 		if(lu == 0)
