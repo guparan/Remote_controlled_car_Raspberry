@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 
 #include "functions.h"
 
@@ -70,18 +71,15 @@ int main()
     {       
 		if(clientConnecte == 0)
 		{
-			while( socketClient == -1 )
+			socketClient = accept4(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse, SOCK_NONBLOCK);
+			
+			if(socketClient == -1 )
 			{
-				socketClient = accept4(socketServeur, (struct sockaddr *)&addrServeur, &longueurAdresse, SOCK_NONBLOCK);
-				
-				if(socketClient == -1 )
-				{
-					printf("errno : %d\n", errno);
-					perror("accept");
-					close(socketClient);
-					close(socketServeur);
-					exit(errno);
-				}
+				printf("errno : %d\n", errno);
+				perror("accept");
+				close(socketClient);
+				close(socketServeur);
+				exit(errno);
 			}
 			
 			printf("Nouveau client !\n");
@@ -96,9 +94,6 @@ int main()
 		}
 		
 		lu = read(socketClient, &commande, 1);
-		
-		printf("lu = %d\n", lu);		
-		printf("commande = %c\n", commande);
 		
 		if(lu == -1)
 		{
@@ -119,10 +114,12 @@ int main()
 		{
 			printf("Socket closed ! \n");
 			close(socketClient);
-			socketClient = -1;
 			clientConnecte = 0;
 			continue;
 		}
+		
+		printf("lu = %d\n", lu);
+		printf("commande = %c\n", commande);
 		
 		switch(commande)
 		{
@@ -144,6 +141,7 @@ int main()
 				speed = speedChange(DOWN, speed);
 		}
 		
+		nanosleep((struct timespec[]){{0, 50000000}}, NULL);
 		commande = 'X';
     }
 	
