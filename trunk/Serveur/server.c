@@ -21,13 +21,13 @@ int main()
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
-	char commande = '\0';
+	char commande = 'X';
 	
 	// Initialisation des GPIO
 	initGPIO();
 
     // Cree un socket de communication
-	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
+	socketServeur = socket(PF_INET, SOCK_STREAM|SOCK_NONBLOCK, 0);
     if(socketServeur == -1)
     {
         perror("Socket");
@@ -129,7 +129,9 @@ int main()
 				speed = speedChange(UP, speed);
 			case '-' :
 				speed = speedChange(DOWN, speed);
-		}	   
+		}
+		
+		commande = 'X';
     }
 	
 	close(socketClient);
