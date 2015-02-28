@@ -24,11 +24,13 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     EditText editTextAddress, editTextPort;
-    TextView outputDebug;
+    TextView outputDebug, speed;
     Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
     Socket socket;
     //BufferedReader in;
-   BufferedWriter out;    
+   BufferedWriter out;
+   int i = 5;
+   
     
 
     @Override
@@ -39,6 +41,7 @@ public class MainActivity extends Activity {
         editTextAddress = (EditText)findViewById(R.id.address);
         editTextPort = (EditText)findViewById(R.id.port);
         outputDebug = (TextView)findViewById(R.id.outputDebug);
+        speed = (TextView)findViewById(R.id.speed);
         
         buttonConnect = (Button)findViewById(R.id.connect);
         
@@ -56,8 +59,8 @@ public class MainActivity extends Activity {
         cmdR.setOnTouchListener(cmdROnLongClickListener);
         cmdD.setOnTouchListener(cmdDOnLongClickListener);
         cmdG.setOnTouchListener(cmdGOnLongClickListener);
-        cmdUp.setOnTouchListener(cmdUpOnLongClickListener);
-        cmdDown.setOnTouchListener(cmdDownOnLongClickListener);
+        cmdUp.setOnLongClickListener(cmdUpOnLongClickListener);
+        cmdDown.setOnLongClickListener(cmdDownOnLongClickListener);
      }
 
     OnClickListener buttonConnectOnClickListener = new OnClickListener()
@@ -172,7 +175,7 @@ public class MainActivity extends Activity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					outputDebug.append("r");
+					outputDebug.append("d");
 
 					mHandler.post(mAction);
 				}
@@ -216,7 +219,7 @@ public class MainActivity extends Activity {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						outputDebug.append("r");
+						outputDebug.append("g");
 
 						mHandler.post(mAction);
 					}
@@ -242,24 +245,53 @@ public class MainActivity extends Activity {
 		};
 
 		
-		OnTouchListener cmdUpOnLongClickListener = new OnTouchListener() {
+		OnLongClickListener cmdUpOnLongClickListener = new OnLongClickListener() {
 			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onLongClick(View v) {
+				
+				try {
+					//int i = 5;
+					out.write('+');
+					out.flush();
+					i = i+1;
+					//speed.setText(2);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				outputDebug.append("+");
+				speed.setText("" +i);
+    			
 				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+			
+
 
 		
-		OnTouchListener cmdDownOnLongClickListener = new OnTouchListener() {
+		OnLongClickListener cmdDownOnLongClickListener = new OnLongClickListener() {
 			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onLongClick(View v) {
+				try {
+					out.write('-');
+					out.flush();
+					i = i-1;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				outputDebug.append("-");
+				speed.setText("" +i);
+			
 				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+			
+
 
 		
     public class MyClientTask extends AsyncTask<Void, Void, Void> {

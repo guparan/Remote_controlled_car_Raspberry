@@ -76,9 +76,12 @@ int speedChange(SpeedChange s, int speed)
 	if(s == UP)
 	{
 		if(speed != 1000) speed += 100;
+		printf("vitesse = %d\n", speed);
 	}
 	else
 	{
 		if(speed != 0) speed -= 100;
+		printf("vitesse = %d\n", speed);
 	}
+	return speed;
 }
