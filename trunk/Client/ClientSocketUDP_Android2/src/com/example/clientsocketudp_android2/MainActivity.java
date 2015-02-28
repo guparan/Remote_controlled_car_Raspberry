@@ -53,11 +53,11 @@ public class MainActivity extends Activity {
         buttonConnect.setOnClickListener(buttonConnectOnClickListener);
 
         cmdA.setOnTouchListener(cmdAOnLongClickListener);
-        cmdR.setOnLongClickListener(cmdROnLongClickListener);
-        cmdD.setOnLongClickListener(cmdDOnLongClickListener);
-        cmdG.setOnLongClickListener(cmdGOnLongClickListener);
-        cmdUp.setOnLongClickListener(cmdUpOnLongClickListener);
-        cmdDown.setOnLongClickListener(cmdDownOnLongClickListener);
+        cmdR.setOnTouchListener(cmdROnLongClickListener);
+        cmdD.setOnTouchListener(cmdDOnLongClickListener);
+        cmdG.setOnTouchListener(cmdGOnLongClickListener);
+        cmdUp.setOnTouchListener(cmdUpOnLongClickListener);
+        cmdDown.setOnTouchListener(cmdDownOnLongClickListener);
      }
 
     OnClickListener buttonConnectOnClickListener = new OnClickListener()
@@ -109,90 +109,158 @@ public class MainActivity extends Activity {
 		}
 	};
 	   
-	 OnLongClickListener cmdROnLongClickListener = new OnLongClickListener()
-	 {			
-			@Override
-			public boolean onLongClick(View v) 
-			{
-					try {
-						out.write('r');
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-		
-	 OnLongClickListener cmdDOnLongClickListener = new OnLongClickListener() 
+	 OnTouchListener cmdROnLongClickListener = new OnTouchListener() 
 	 {
-			@Override
-			public boolean onLongClick(View v) 
-			{				
-					try {
+			private Handler mHandler;
+			
+			Runnable mAction = new Runnable() 
+			{			
+				@Override
+				public void run()
+				{
+					try 
+					{
+						out.write('r');
+		    			out.flush();
+					} 
+					catch (IOException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					outputDebug.append("r");
+
+					mHandler.post(mAction);
+				}
+			};
+			
+		
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if(event.getAction()==MotionEvent.ACTION_DOWN)
+			{
+				if(mHandler!=null ) return true;
+				mHandler = new Handler();
+				mHandler.post(mAction);
+			}
+			else if (event.getAction()==MotionEvent.ACTION_UP)
+			{
+				if(mHandler == null) return true;
+				mHandler.removeCallbacks(mAction);
+				mHandler=null;
+			}
+			// TODO Auto-generated method stub
+			return false;
+		}
+	};
+
+	 OnTouchListener cmdDOnLongClickListener = new OnTouchListener() {
+		 private Handler mHandler;
+			
+			Runnable mAction = new Runnable() 
+			{			
+				@Override
+				public void run()
+				{
+					try 
+					{
 						out.write('d');
-					} catch (IOException e) {
+		    			out.flush();
+					} 
+					catch (IOException e) 
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				
-				// TODO Auto-generated method stub
-				return false;
+					outputDebug.append("r");
+
+					mHandler.post(mAction);
+				}
+			};
+		
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if(event.getAction()==MotionEvent.ACTION_DOWN)
+			{
+				if(mHandler!=null ) return true;
+				mHandler = new Handler();
+				mHandler.post(mAction);
 			}
-		};
+			else if (event.getAction()==MotionEvent.ACTION_UP)
+			{
+				if(mHandler == null) return true;
+				mHandler.removeCallbacks(mAction);
+				mHandler=null;
+			}
+			// TODO Auto-generated method stub
+			return false;
+		}
+	}; 
+
 			 
-		OnLongClickListener cmdGOnLongClickListener = new OnLongClickListener() 
-		{					
-			@Override
-			public boolean onLongClick(View v) 
-			{
-					try {
-						out.write('g');
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		OnTouchListener cmdGOnLongClickListener = new OnTouchListener() {
+			 private Handler mHandler;
 				
+				Runnable mAction = new Runnable() 
+				{			
+					@Override
+					public void run()
+					{
+						try 
+						{
+							out.write('g');
+			    			out.flush();
+						} 
+						catch (IOException e) 
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						outputDebug.append("r");
+
+						mHandler.post(mAction);
+					}
+				};
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction()==MotionEvent.ACTION_DOWN)
+				{
+					if(mHandler!=null ) return true;
+					mHandler = new Handler();
+					mHandler.post(mAction);
+				}
+				else if (event.getAction()==MotionEvent.ACTION_UP)
+				{
+					if(mHandler == null) return true;
+					mHandler.removeCallbacks(mAction);
+					mHandler=null;
+				}
 				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+
 		
-		OnLongClickListener cmdUpOnLongClickListener = new OnLongClickListener() 
-		{					
+		OnTouchListener cmdUpOnLongClickListener = new OnTouchListener() {
+			
 			@Override
-			public boolean onLongClick(View v) 
-			{
-					try {
-						out.write('+');
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
+			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+
 		
-		OnLongClickListener cmdDownOnLongClickListener = new OnLongClickListener() 
-		{					
+		OnTouchListener cmdDownOnLongClickListener = new OnTouchListener() {
+			
 			@Override
-			public boolean onLongClick(View v) 
-			{
-					try {
-						out.write('+');
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
+			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
 				return false;
 			}
 		};
+
 		
     public class MyClientTask extends AsyncTask<Void, Void, Void> {
 
