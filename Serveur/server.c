@@ -102,7 +102,7 @@ int main()
 		{
 			if(errno == EAGAIN) // Nothing to read
 			{
-				if(etat != REPOS && stopCount > 500)
+				if(etat != REPOS && stopCount > 150)
 				{
 					etat = REPOS;
 					avancer(0); // stop motors
@@ -150,13 +150,24 @@ int main()
 				}
 				break;
 			case 'd' :
-				tourner(DROITE, speed);
+				if(etat != DROITE0)
+				{
+					etat = DROITE0;
+					printf("DROITE\n");
+					tourner(DROITE, speed);
+				}
 				break;
 			case 'g' :
-				tourner(GAUCHE, speed);
+				if(etat != GAUCHE0)
+				{
+					etat = GAUCHE0;
+					printf("GAUCHE\n");
+					tourner(GAUCHE, speed);
+				}
 				break;
 			case '+' :
 				speed = speedChange(UP, speed);
+				break;
 			case '-' :
 				speed = speedChange(DOWN, speed);
 		}

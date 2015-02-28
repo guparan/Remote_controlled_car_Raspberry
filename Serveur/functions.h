@@ -13,7 +13,7 @@
 
 typedef enum {GAUCHE, DROITE} Direction;
 typedef enum {UP, DOWN} SpeedChange;
-typedef enum {REPOS, AVANCE, RECULE} Etat;
+typedef enum {REPOS, AVANCE, RECULE, GAUCHE0, DROITE0} Etat;
 
 
 void avancer(int speed);
