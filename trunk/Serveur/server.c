@@ -17,6 +17,7 @@ int main()
     int socketClient = -1;
 	int clientConnecte = 0;
     int i;
+	int ecrit = 0;
 	int lu = -1;
 	int speed = 500;
 	int stopCount = 0;
@@ -24,6 +25,7 @@ int main()
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
 	char commande = 'X';
+	char clientONOFF = 'o';
 	Etat etat = REPOS;
 	
 	// Initialisation des GPIO
@@ -93,6 +95,7 @@ int main()
 			}
 			
 			clientConnecte = 1;
+			//ecrits = write(socketClient, &clientONOFF, 1);
 		}
 		
 		nanosleep((struct timespec[]){{0, 10000000}}, NULL);
