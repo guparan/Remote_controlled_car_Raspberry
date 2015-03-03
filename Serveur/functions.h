@@ -2,6 +2,7 @@
 #define FUNCTIONS_H
 
 #include <wiringPi.h>
+#include <sys/time.h>
 //#include <softPwm.h>
 
 #define PORT 8080
@@ -13,7 +14,6 @@
 
 typedef enum {GAUCHE, DROITE} Direction;
 typedef enum {UP, DOWN} SpeedChange;
-typedef enum {REPOS, AVANCE, RECULE, GAUCHE0, DROITE0} Etat;
 
 
 void avancer(int speed);
@@ -22,6 +22,8 @@ void tourner(Direction d, int speed);
 int speedChange(SpeedChange s, int speed); 
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
+int ultrason();
+long int elapsedTime(struct timeval begin, struct timeval end);
 
 #endif
 

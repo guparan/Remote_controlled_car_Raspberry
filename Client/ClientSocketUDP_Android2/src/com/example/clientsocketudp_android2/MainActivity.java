@@ -98,15 +98,28 @@ public class MainActivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if(event.getAction()==MotionEvent.ACTION_DOWN)
 			{
-				if(mHandler!=null ) return true;
-				mHandler = new Handler();
-				mHandler.post(mAction);
+				try {
+					out.write('a');
+					out.flush();
+					outputDebug.append("a");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
 			}
 			else if (event.getAction()==MotionEvent.ACTION_UP)
 			{
-				if(mHandler == null) return true;
-				mHandler.removeCallbacks(mAction);
-				mHandler=null;
+
+				try {
+					out.write('s');
+					out.flush();
+					outputDebug.append("s");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
 			}
 			return false;
 		}
@@ -142,15 +155,27 @@ public class MainActivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if(event.getAction()==MotionEvent.ACTION_DOWN)
 			{
-				if(mHandler!=null ) return true;
-				mHandler = new Handler();
-				mHandler.post(mAction);
+				try {
+					out.write('r');
+					out.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	
+				
 			}
+
 			else if (event.getAction()==MotionEvent.ACTION_UP)
 			{
-				if(mHandler == null) return true;
-				mHandler.removeCallbacks(mAction);
-				mHandler=null;
+				try {
+					out.write('s');
+					out.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
 			}
 			// TODO Auto-generated method stub
 			return false;
@@ -185,15 +210,25 @@ public class MainActivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			if(event.getAction()==MotionEvent.ACTION_DOWN)
 			{
-				if(mHandler!=null ) return true;
-				mHandler = new Handler();
-				mHandler.post(mAction);
+				try {
+					out.write('d');
+	    			out.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
 			}
 			else if (event.getAction()==MotionEvent.ACTION_UP)
 			{
-				if(mHandler == null) return true;
-				mHandler.removeCallbacks(mAction);
-				mHandler=null;
+				try {
+					out.write('s');
+	    			out.flush();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 			// TODO Auto-generated method stub
 			return false;
@@ -229,15 +264,31 @@ public class MainActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction()==MotionEvent.ACTION_DOWN)
 				{
-					if(mHandler!=null ) return true;
-					mHandler = new Handler();
-					mHandler.post(mAction);
+					try 
+					{
+						out.write('g');
+		    			out.flush();
+					} 
+					catch (IOException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
 				else if (event.getAction()==MotionEvent.ACTION_UP)
 				{
-					if(mHandler == null) return true;
-					mHandler.removeCallbacks(mAction);
-					mHandler=null;
+					try 
+					{
+						out.write('s');
+		    			out.flush();
+					} 
+					catch (IOException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
 				}
 				// TODO Auto-generated method stub
 				return false;
@@ -254,7 +305,8 @@ public class MainActivity extends Activity {
 					//int i = 5;
 					out.write('+');
 					out.flush();
-					i = i+1;
+					if(i<10) i = i+1;
+					
 					//speed.setText(2);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -278,7 +330,7 @@ public class MainActivity extends Activity {
 				try {
 					out.write('-');
 					out.flush();
-					i = i-1;
+					if(i>0) i = i-1;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

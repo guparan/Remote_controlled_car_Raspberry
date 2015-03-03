@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+
 void initGPIO()
 {
 	printf("Initialisation des GPIO\n");
@@ -10,8 +11,8 @@ void initGPIO()
 	
 	//pinMode(PIN23, OUTPUT);
 	//pinMode(PIN24, OUTPUT);
-	//pinMode(PIN8, OUTPUT);
-	//pinMode(PIN7, OUTPUT);
+	pinMode(PIN17, OUTPUT);
+	pinMode(PIN27, INPUT);
 	softPwmCreate(PIN23,0,1000);
 	softPwmCreate(PIN24,0,1000);
 	softPwmCreate(PIN8,0,1000);
@@ -85,3 +86,28 @@ int speedChange(SpeedChange s, int speed)
 	}
 	return speed;
 }
+
+int ultrason()
+{
+	struct timeval begin, end;
+	long int elapsedTime;
+	
+	digitalWrite (PIN17, 1);     // On
+	
+	digitalWrite (PIN17, 0);      // Off
+	
+	// nanosecond
+	gettimeofday(&begin, NULL);
+	gettimeofday(&end, NULL);
+	elapsedTime = elapsedTime(begin, end);
+	
+	
+}
+
+long int elapsedTime(struct timeval begin, struct timeval end)
+{
+	
+	
+	return (end.tv_sec*(long int)1000000+end.tv_usec) - (begin.tv_sec*(long int)1000000+begin.tv_usec);
+}
+
