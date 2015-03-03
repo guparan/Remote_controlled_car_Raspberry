@@ -26,7 +26,6 @@ int main()
     char nomDuClient[1024], portDuClient[32];
 	char commande = 'X';
 	char clientONOFF = 'o';
-	Etat etat = REPOS;
 	
 	// Initialisation des GPIO
 	initGPIO();
@@ -98,21 +97,21 @@ int main()
 			//ecrits = write(socketClient, &clientONOFF, 1);
 		}
 		
-		nanosleep((struct timespec[]){{0, 10000000}}, NULL);
+		// nanosleep((struct timespec[]){{0, 10000000}}, NULL);
 		lu = read(socketClient, &commande, 1);
 		
 		if(lu == -1)
 		{
 			if(errno == EAGAIN) // Nothing to read
 			{
-				if(etat != REPOS && stopCount > 150)
+				/*if(etat != REPOS) //&& stopCount > 150)
 				{
 					etat = REPOS;
 					avancer(0); // stop motors
 					printf("STOP\n");
-					stopCount = 0;
-				}
-				stopCount++;
+					//stopCount = 0;
+				}*/
+				//stopCount++;
 				continue;
 			}
 			else
@@ -126,6 +125,9 @@ int main()
 		if(lu == 0)
 		{
 			printf("Socket closed ! \n");
+			speed = 500;
+			avancer(0);
+			commande = 's';
 			close(socketClient);
 			clientConnecte = 0;
 			continue;
@@ -137,45 +139,31 @@ int main()
 		switch(commande)
 		{
 			case 'a' :
-				if(etat != AVANCE)
-				{
-					etat = AVANCE;
-					printf("AVANCE\n");
-					avancer(speed);
-				}
+				//printf("AVANCE\n");
+				avancer(speed);
 				break;
 			case 'r' :
-				if(etat != RECULE)
-				{
-					etat = RECULE;
-					printf("RECULE\n");
-					reculer(speed);
-				}
+				//printf("RECULE\n");
+				reculer(speed);
 				break;
 			case 'd' :
-				if(etat != DROITE0)
-				{
-					etat = DROITE0;
-					printf("DROITE\n");
-					tourner(DROITE, speed);
-				}
+				//printf("DROITE\n");
+				tourner(DROITE, speed);
 				break;
 			case 'g' :
-				if(etat != GAUCHE0)
-				{
-					etat = GAUCHE0;
-					printf("GAUCHE\n");
-					tourner(GAUCHE, speed);
-				}
+				//printf("GAUCHE\n");
+				tourner(GAUCHE, speed);
 				break;
 			case '+' :
 				speed = speedChange(UP, speed);
 				break;
 			case '-' :
 				speed = speedChange(DOWN, speed);
+				break;
+			case 's' :
+				//printf("REPOS\n");
+				avancer(0);
 		}
-		
-		commande = 'X';
     }
 	
 	close(socketClient);
