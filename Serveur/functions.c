@@ -1,6 +1,7 @@
 #include "functions.h"
 
 #include <stdio.h>
+//long int elapsedTime2(struct timeval begin, struct timeval end);
 
 
 void initGPIO()
@@ -87,36 +88,48 @@ int speedChange(SpeedChange s, int speed)
 	return speed;
 }
 
-int ultrason()
+ int ultrason()
 {
-	struct timeval begin, end;
-	long int elapsedTime;
+	//struct timeval begin, end;
+	//long int elapsedTime;
 	int distance = 0;
+	long startTime = 0;
+	long travelTime = 0;
 	
 	digitalWrite (PIN17, 0);     // Off
-	nanosleep((struct timespec[]){{0, 300000000}}, NULL);	
+	//nanosleep((struct timespec[]){{0, 300000000}}, NULL);	
+	delayMicroseconds(30);
 	digitalWrite (PIN17, 1);      // On
-	nanosleep((struct timespec[]){{0, 10000}}, NULL);
+	//nanosleep((struct timespec[]){{0, 10000}}, NULL);
+	delayMicroseconds(20);
 	digitalWrite (PIN17, 0);     // Off	
 	
 	while(digitalRead(PIN27) == 0)
 	{
-		gettimeofday(&begin, NULL);		
+		//gettimeofday(&begin, NULL);
+		startTime = micros();		
 	}
 	
 	while(digitalRead(PIN27) == 1)
 	{
-		gettimeofday(&end, NULL);
+		//gettimeofday(&end, NULL);
+		travelTime = micros() - startTime;
 	}
 
-	elapsedTime = elapsedTime(begin, end);
+	//elapsedTime = elapsedTime2(begin, end);
 	
-	distance = elapsedTime*17000;
+	//distance = elapsedTime*17000;
+	 //Get distance in cm
+        distance = travelTime / 58;
+
+        return distance;
+	
+	//return distance;
 }
 
-long int elapsedTime(struct timeval begin, struct timeval end)
+long int elapsedTime2(struct timeval begin, struct timeval end)
 {
-	
+	int i;
 	
 	return (end.tv_sec*(long int)1000000+end.tv_usec) - (begin.tv_sec*(long int)1000000+begin.tv_usec);
 }
