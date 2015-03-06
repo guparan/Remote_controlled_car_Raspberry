@@ -91,17 +91,27 @@ int ultrason()
 {
 	struct timeval begin, end;
 	long int elapsedTime;
+	int distance = 0;
 	
-	digitalWrite (PIN17, 1);     // On
+	digitalWrite (PIN17, 0);     // Off
+	nanosleep((struct timespec[]){{0, 300000000}}, NULL);	
+	digitalWrite (PIN17, 1);      // On
+	nanosleep((struct timespec[]){{0, 10000}}, NULL);
+	digitalWrite (PIN17, 0);     // Off	
 	
-	digitalWrite (PIN17, 0);      // Off
+	while(digitalRead(PIN27) == 0)
+	{
+		gettimeofday(&begin, NULL);		
+	}
 	
-	// nanosecond
-	gettimeofday(&begin, NULL);
-	gettimeofday(&end, NULL);
+	while(digitalRead(PIN27) == 1)
+	{
+		gettimeofday(&end, NULL);
+	}
+
 	elapsedTime = elapsedTime(begin, end);
 	
-	
+	distance = elapsedTime*17000;
 }
 
 long int elapsedTime(struct timeval begin, struct timeval end)

@@ -9,6 +9,8 @@
 #define CLIENT_MAX 1
 #define PIN7 11
 #define PIN8 10
+#define PIN17 0
+#define PIN27 2
 #define PIN23 4
 #define PIN24 5
 

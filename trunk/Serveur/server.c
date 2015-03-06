@@ -21,6 +21,7 @@ int main()
 	int lu = -1;
 	int speed = 500;
 	int stopCount = 0;
+	int distance = 0;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
@@ -164,6 +165,8 @@ int main()
 				//printf("REPOS\n");
 				avancer(0);
 		}
+		
+		distance = ultrason();
     }
 	
 	close(socketClient);
