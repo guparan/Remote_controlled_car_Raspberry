@@ -14,7 +14,8 @@
 void *thread_distance (void * arg)
 {
     int * client=(int *)arg; // On precise la nature de la variable arg	
-	int ecrits;
+	int ecrits = 0;
+	int distance = 0;
 	
 	for(;;)
 	{
@@ -28,7 +29,9 @@ void *thread_distance (void * arg)
 		else
 		{
 			printf("Distance: %d \n", ultrason());
-			ecrits = write(*client, ultrason(), sizeof(int));
+			distance = ultrason();
+			ecrits = write(*client, &distance, sizeof(distance));
+			printf("%d\n", ecrits);
 		}
 
 		delay(3000);
