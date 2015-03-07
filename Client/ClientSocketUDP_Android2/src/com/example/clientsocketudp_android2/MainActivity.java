@@ -105,7 +105,6 @@ public class MainActivity extends Activity {
 			if(event.getAction()==MotionEvent.ACTION_DOWN)
 			{
 				try {
-	                r.readInt();
 					out.write('a');
 					out.flush();
 					outputDebug.append("a");
@@ -115,7 +114,9 @@ public class MainActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-    			
+
+
+
 			}
 			else if (event.getAction()==MotionEvent.ACTION_UP)
 			{
@@ -372,6 +373,12 @@ public class MainActivity extends Activity {
         		//in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
         		r = new DataInputStream(socket.getInputStream());
         		out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()), 1);
+        		while(true)
+        		{
+				r.readLong();
+				speed.setText("" +r.readLong());
+        		}
+        		//distance.setText("" +1);
 
         		//r.readInt();
         		//distance.setText("" +1);
