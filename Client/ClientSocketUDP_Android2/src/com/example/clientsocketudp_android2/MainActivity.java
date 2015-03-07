@@ -1,7 +1,10 @@
 package com.example.clientsocketudp_android2;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -24,12 +27,14 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     EditText editTextAddress, editTextPort;
-    TextView outputDebug, speed;
+    TextView outputDebug, speed, distance;
     Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
     Socket socket;
     //BufferedReader in;
+    DataInputStream r;
    BufferedWriter out;
    int i = 5;
+   int distanceF;
    
     
 
@@ -42,6 +47,7 @@ public class MainActivity extends Activity {
         editTextPort = (EditText)findViewById(R.id.port);
         outputDebug = (TextView)findViewById(R.id.outputDebug);
         speed = (TextView)findViewById(R.id.speed);
+        distance = (TextView)findViewById(R.id.distance);
         
         buttonConnect = (Button)findViewById(R.id.connect);
         
@@ -99,9 +105,12 @@ public class MainActivity extends Activity {
 			if(event.getAction()==MotionEvent.ACTION_DOWN)
 			{
 				try {
+	                r.readInt();
 					out.write('a');
 					out.flush();
 					outputDebug.append("a");
+
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -352,6 +361,8 @@ public class MainActivity extends Activity {
         int dstPort;
         String response;
 
+
+
         @Override
         protected Void doInBackground(Void... arg0) 
         {
@@ -359,7 +370,13 @@ public class MainActivity extends Activity {
         	{
         		socket = new Socket(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()) );
         		//in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
-        		out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()), 1);        		
+        		r = new DataInputStream(socket.getInputStream());
+        		out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()), 1);
+
+        		//r.readInt();
+        		//distance.setText("" +1);
+
+
             } catch (UnknownHostException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
