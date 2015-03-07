@@ -25,7 +25,7 @@ int speedChange(SpeedChange s, int speed);
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
 int ultrason();
-long int elapsedTime2(struct timeval begin, struct timeval end);
+//long int elapsedTime2(struct timeval begin, struct timeval end);
 
 #endif
 

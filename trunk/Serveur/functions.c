@@ -12,8 +12,9 @@ void initGPIO()
 	
 	//pinMode(PIN23, OUTPUT);
 	//pinMode(PIN24, OUTPUT);
-	pinMode(PIN17, OUTPUT);
-	pinMode(PIN27, INPUT);
+	pinMode(PIN17, OUTPUT);	//	For TRIG envoyer
+	pinMode(PIN27, INPUT);	//	For ECHO recevoir
+	
 	softPwmCreate(PIN23,0,1000);
 	softPwmCreate(PIN24,0,1000);
 	softPwmCreate(PIN8,0,1000);
@@ -90,47 +91,39 @@ int speedChange(SpeedChange s, int speed)
 
  int ultrason()
 {
-	//struct timeval begin, end;
-	//long int elapsedTime;
 	int distance = 0;
 	long startTime = 0;
 	long travelTime = 0;
 	
-	digitalWrite (PIN17, 0);     // Off
-	//nanosleep((struct timespec[]){{0, 300000000}}, NULL);	
-	delayMicroseconds(30);
+	digitalWrite(PIN17, 0);  //   TRIG pin must start off
+	delay(30);
+	
+	//	Send trig pulse
 	digitalWrite (PIN17, 1);      // On
-	//nanosleep((struct timespec[]){{0, 10000}}, NULL);
 	delayMicroseconds(20);
 	digitalWrite (PIN17, 0);     // Off	
 	
-	while(digitalRead(PIN27) == 0)
-	{
-		//gettimeofday(&begin, NULL);
-		startTime = micros();		
-	}
+	//	Wait for echo start
+	while(digitalRead(PIN27) == 0);
 	
-	while(digitalRead(PIN27) == 1)
-	{
-		//gettimeofday(&end, NULL);
-		travelTime = micros() - startTime;
-	}
-
-	//elapsedTime = elapsedTime2(begin, end);
+	//	Wait for echo end
+	startTime = micros();		
 	
-	//distance = elapsedTime*17000;
+	
+	while(digitalRead(PIN27) == 1);
+	
+	travelTime = micros() - startTime;
+	
 	 //Get distance in cm
-        distance = travelTime / 58;
+	distance = travelTime / 58;
 
-        return distance;
-	
-	//return distance;
+	return distance;
 }
-
+/*
 long int elapsedTime2(struct timeval begin, struct timeval end)
 {
 	int i;
 	
 	return (end.tv_sec*(long int)1000000+end.tv_usec) - (begin.tv_sec*(long int)1000000+begin.tv_usec);
 }
-
+*/

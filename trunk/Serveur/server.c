@@ -7,8 +7,35 @@
 #include <stdio.h>
 #include <errno.h>
 #include <time.h>
+#include <pthread.h>
 
 #include "functions.h"
+
+void *thread_distance (void * arg)
+{
+    int * client=(int *)arg; // On precise la nature de la variable arg	
+	int ecrits;
+	
+	for(;;)
+	{
+		printf("creation du thread1\n");
+
+		//setup();
+		if(*client == -1)
+		{
+			printf("pas de client connecte\n");
+		}
+		else
+		{
+			printf("Distance: %d \n", ultrason());
+			ecrits = write(*client, ultrason(), sizeof(int));
+		}
+
+		delay(3000);
+	}
+
+	return 0;
+}
 
 
 int main()
@@ -27,10 +54,14 @@ int main()
     char nomDuClient[1024], portDuClient[32];
 	char commande = 'X';
 	char clientONOFF = 'o';
+	pthread_t thread1;
 	
 	// Initialisation des GPIO
 	initGPIO();
 
+    pthread_create(&thread1, NULL, thread_distance, &socketClient);
+    printf("creation du thread1\n");
+	
     // Cree un socket de communication
 	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
     if(socketServeur == -1)
@@ -166,8 +197,8 @@ int main()
 				avancer(0);
 		}
 		
-		distance = ultrason();
-		printf("%d\n", distance);
+		//distance = ultrason();
+		//printf("%d\n", distance);
     }
 	
 	close(socketClient);
