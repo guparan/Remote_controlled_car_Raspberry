@@ -13,28 +13,23 @@
 
 void *thread_distance (void * arg)
 {
-    int * client=(int *)arg; // On precise la nature de la variable arg	
+    int* socketClient=(int *)arg; // On precise la nature de la variable arg	
 	int ecrits = 0;
-	int distance = 0;
+	int distance, distance_32bits;
+	
+	printf("creation du thread1\n");
 	
 	for(;;)
 	{
-		printf("creation du thread1\n");
-
-		//setup();
-		if(*client == -1)
+		printf("Distance: %d \n", ultrason());
+		distance = ultrason();
+		
+		if(*socketClient != -1)
 		{
-			printf("pas de client connecte\n");
+			distance_32bits = htonl(distance);
+			ecrit = write(*socketClient, &distance_32bits, sizeof(distance_32bits));
 		}
-		else
-		{
-			printf("Distance: %d \n", ultrason());
-			distance = ultrason();
-			ecrits = write(*client, &distance, sizeof(distance));
-			printf("%d\n", ecrits);
-		}
-
-		delay(3000);
+		delay(50);
 	}
 
 	return 0;
@@ -51,7 +46,8 @@ int main()
 	int lu = -1;
 	int speed = 500;
 	int stopCount = 0;
-	long int distance = 0;
+	int distance = 0;
+	int distance_32bits = 0;
     struct sockaddr_in addrServeur;
     socklen_t longueurAdresse; // Nombre d'octets de la structure sockaddr_in
     char nomDuClient[1024], portDuClient[32];
@@ -132,6 +128,7 @@ int main()
 			//ecrits = write(socketClient, &clientONOFF, 1);
 		}
 		
+		
 		// nanosleep((struct timespec[]){{0, 10000000}}, NULL);
 		lu = read(socketClient, &commande, 1);
 		
@@ -139,14 +136,6 @@ int main()
 		{
 			if(errno == EAGAIN) // Nothing to read
 			{
-				/*if(etat != REPOS) //&& stopCount > 150)
-				{
-					etat = REPOS;
-					avancer(0); // stop motors
-					printf("STOP\n");
-					//stopCount = 0;
-				}*/
-				//stopCount++;
 				continue;
 			}
 			else
