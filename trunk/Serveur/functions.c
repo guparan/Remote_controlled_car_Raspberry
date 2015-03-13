@@ -15,6 +15,8 @@ void initGPIO()
 	pinMode(PIN17, OUTPUT);	//	For TRIG envoyer
 	pinMode(PIN27, INPUT);	//	For ECHO recevoir
 	
+	pinMode(PIN25, INPUT);	//	For Speed Right
+	
 	softPwmCreate(PIN23,0,1000);
 	softPwmCreate(PIN24,0,1000);
 	softPwmCreate(PIN8,0,1000);
@@ -127,3 +129,32 @@ long int elapsedTime2(struct timeval begin, struct timeval end)
 	return (end.tv_sec*(long int)1000000+end.tv_usec) - (begin.tv_sec*(long int)1000000+begin.tv_usec);
 }
 */
+
+int codeurIncrementalD()
+{
+	int speed = 0;
+	int cnt = 0;
+	long startTime = 0;
+	long stopTime = 0;
+	float timePassed = 0; 
+	
+	startTime = micros();
+	
+	while(cnt != 20)
+	{
+		if(digitalRead(PIN25) == 1)
+		{
+			cnt = cnt +1;
+			while(digitalRead(PIN25) == 1);
+				
+		}
+		
+		if(cnt == 20)
+		{
+			stopTime = micros();
+			timePassed = (stopTime - startTime)/1000;
+		}
+		
+	}	
+	return timePassed;
+}

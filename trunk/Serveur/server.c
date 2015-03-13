@@ -16,6 +16,7 @@ void *thread_distance (void * arg)
     int* socketClient=(int *)arg; // On precise la nature de la variable arg	
 	int ecrits = 0;
 	int distance, distance_32bits;
+
 	
 	printf("creation du thread1\n");
 	
@@ -27,7 +28,7 @@ void *thread_distance (void * arg)
 		if(*socketClient != -1)
 		{
 			distance_32bits = htonl(distance);
-			ecrit = write(*socketClient, &distance_32bits, sizeof(distance_32bits));
+			ecrits = write(*socketClient, &distance_32bits, sizeof(distance_32bits));
 		}
 		delay(50);
 	}
@@ -35,6 +36,21 @@ void *thread_distance (void * arg)
 	return 0;
 }
 
+void *thread_speed (void * arg)
+{
+    int* socketClient=(int *)arg; // On precise la nature de la variable arg
+	float encoderSpeed = 0;
+	
+	printf("creation du thread2\n");
+	
+	for(;;)
+	{
+		encoderSpeed = codeurIncrementalD();
+		printf("speed = %f\n", encoderSpeed);
+		delay(100);
+	}
+	return 0;
+}
 
 int main()
 {
@@ -54,12 +70,14 @@ int main()
 	char commande = 'X';
 	char clientONOFF = 'o';
 	pthread_t thread1;
+	pthread_t thread2;
 	
 	// Initialisation des GPIO
 	initGPIO();
 
     pthread_create(&thread1, NULL, thread_distance, &socketClient);
-    printf("creation du thread1\n");
+	pthread_create(&thread2, NULL, thread_speed, &socketClient);
+    printf("creation du thread1 et 2\n");
 	
     // Cree un socket de communication
 	socketServeur = socket(PF_INET, SOCK_STREAM, 0);
@@ -190,7 +208,6 @@ int main()
 		}
 		
 		//distance = ultrason();
-		//printf("%d\n", distance);
     }
 	
 	close(socketClient);

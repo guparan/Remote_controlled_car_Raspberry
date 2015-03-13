@@ -13,6 +13,7 @@
 #define PIN27 2
 #define PIN23 4
 #define PIN24 5
+#define PIN25 6
 
 typedef enum {GAUCHE, DROITE} Direction;
 typedef enum {UP, DOWN} SpeedChange;
@@ -25,6 +26,7 @@ int speedChange(SpeedChange s, int speed);
 void arretUrgence(); // si la file de commande est rempli on arrete le systeme
 void initGPIO();
 int ultrason();
+int codeurIncrementalD();
 //long int elapsedTime2(struct timeval begin, struct timeval end);
 
 #endif
