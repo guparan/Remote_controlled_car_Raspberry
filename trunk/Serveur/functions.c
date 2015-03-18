@@ -136,7 +136,7 @@ int codeurIncrementalD()
 	int cnt = 0;
 	long startTime = 0;
 	long stopTime = 0;
-	float timePassed = 0; 
+	int timePassed = 0; 
 	
 	startTime = micros();
 	
@@ -152,7 +152,7 @@ int codeurIncrementalD()
 		if(cnt == 20)
 		{
 			stopTime = micros();
-			timePassed = (stopTime - startTime)/1000;
+			timePassed = (stopTime - startTime)/1000.0;
 		}
 		
 	}	
