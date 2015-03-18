@@ -9,6 +9,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +28,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	EditText editTextAddress, editTextPort;
-	TextView outputDebug, speed, distance;
+	TextView outputDebug, speed, distance, codeurSpeed;
 	Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
 	Socket socket;
 	BufferedReader in;
@@ -34,6 +36,7 @@ public class MainActivity extends Activity {
 	BufferedWriter out;
 	int i = 5;
 	int distance_int = 0;
+	int codeurSpeed_int = 0;
 	ConnectionTask myClientTask = new ConnectionTask();
 	DistanceTask distanceTask = new DistanceTask();
 
@@ -48,6 +51,7 @@ public class MainActivity extends Activity {
 		editTextPort = (EditText)findViewById(R.id.port);
 		outputDebug = (TextView)findViewById(R.id.outputDebug);
 		speed = (TextView)findViewById(R.id.speed);
+		codeurSpeed = (TextView)findViewById(R.id.codeurSpeed);
 		distance = (TextView)findViewById(R.id.distance);
 
 		buttonConnect = (Button)findViewById(R.id.connect);
@@ -75,7 +79,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onClick(View arg0) 
 		{
-			myClientTask.execute();
+			if(myClientTask.getStatus() != AsyncTask.Status.RUNNING) 
+				myClientTask.execute();
 		}
 	};
 
@@ -257,17 +262,35 @@ public class MainActivity extends Activity {
 			public void run()
 			{
 				distance.setText(String.valueOf(distance_int));
+				codeurSpeed.setText(String.valueOf(codeurSpeed_int));
 			}
 		};
 		
 		@Override
 		protected Void doInBackground(Void... params)
 		{
+			byte[] buffer = new byte[2*4];
+			int id, values;
+			
 			while (true)
 			{
 				//distance_int++;
 				try {
-					distance_int = r.readInt();
+					r.read(buffer);
+
+					id = ByteBuffer.wrap(buffer, 0, 4).getInt();
+					values = ByteBuffer.wrap(buffer, 4, 4).getInt();
+					
+					//id = r.readChar();
+					//values = r.readInt();
+					if(id == 0)
+					{
+						distance_int = values;	
+					}
+					else
+					{
+						codeurSpeed_int = values;	
+					}
 					runOnUiThread(mAction);
 					Thread.sleep(10);
 				} catch (IOException e1) {

@@ -8,27 +8,36 @@
 #include <errno.h>
 #include <time.h>
 #include <pthread.h>
+#include <stdint.h>
 
 #include "functions.h"
+
+pthread_mutex_t lock;
 
 void *thread_distance (void * arg)
 {
     int* socketClient=(int *)arg; // On precise la nature de la variable arg	
 	int ecrits = 0;
-	int distance, distance_32bits;
+	int distance;
+	char id = 'd';
+	int buffer[2];
+	buffer[0] = htonl(0);
 
 	
 	printf("creation du thread1\n");
 	
 	for(;;)
 	{
-		printf("Distance: %d \n", ultrason());
+		//printf("Distance: %d \n", ultrason());
 		distance = ultrason();
 		
 		if(*socketClient != -1)
 		{
-			distance_32bits = htonl(distance);
-			ecrits = write(*socketClient, &distance_32bits, sizeof(distance_32bits));
+			buffer[1] = htonl(distance);
+			pthread_mutex_lock(&lock);
+			//ecrits = write(*socketClient, &id, sizeof(id));
+			ecrits = write(*socketClient, buffer, sizeof(buffer));
+			pthread_mutex_unlock(&lock);
 		}
 		delay(50);
 	}
@@ -39,14 +48,27 @@ void *thread_distance (void * arg)
 void *thread_speed (void * arg)
 {
     int* socketClient=(int *)arg; // On precise la nature de la variable arg
-	float encoderSpeed = 0;
+	int encoderSpeed = 0;
+	int ecrits = 0;
+	char id = 's';
+	int buffer[2];
+	buffer[0] = htonl(1);
 	
 	printf("creation du thread2\n");
 	
 	for(;;)
 	{
 		encoderSpeed = codeurIncrementalD();
-		printf("speed = %f\n", encoderSpeed);
+		printf("speed = %lu\n", encoderSpeed);
+		
+		if(*socketClient != -1)
+		{
+			buffer[1] = htonl(encoderSpeed);
+			pthread_mutex_lock(&lock);
+			//ecrits = write(*socketClient, &id, sizeof(id));
+			ecrits = write(*socketClient, buffer, sizeof(buffer));
+			pthread_mutex_unlock(&lock);
+		}
 		delay(100);
 	}
 	return 0;
@@ -74,6 +96,14 @@ int main()
 	
 	// Initialisation des GPIO
 	initGPIO();
+	
+	// Initialisation Mutex
+	if(pthread_mutex_init(&lock, NULL) != 0)
+	{
+		perror("mutex");
+		exit(-1);
+		
+	}
 
     pthread_create(&thread1, NULL, thread_distance, &socketClient);
 	pthread_create(&thread2, NULL, thread_speed, &socketClient);
