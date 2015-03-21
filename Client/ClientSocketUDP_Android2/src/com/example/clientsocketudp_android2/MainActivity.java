@@ -28,7 +28,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 	EditText editTextAddress, editTextPort;
-	TextView outputDebug, speed, distance, codeurSpeed, connexion;
+	TextView outputDebug, speed, distance, codeurSpeed;
 	Button buttonConnect, cmdA, cmdR, cmdG, cmdD, cmdUp, cmdDown;
 	Socket socket;
 	BufferedReader in;
@@ -53,7 +53,6 @@ public class MainActivity extends Activity {
 		speed = (TextView)findViewById(R.id.speed);
 		codeurSpeed = (TextView)findViewById(R.id.codeurSpeed);
 		distance = (TextView)findViewById(R.id.distance);
-		connexion = (TextView)findViewById(R.id.connexion);
 
 		buttonConnect = (Button)findViewById(R.id.connect);
 
@@ -82,6 +81,7 @@ public class MainActivity extends Activity {
 		{
 			if(myClientTask.getStatus() != AsyncTask.Status.RUNNING) 
 				myClientTask.execute();
+				outputDebug.append("Connected");
 		}
 	};
 
@@ -317,7 +317,7 @@ public class MainActivity extends Activity {
 			try 
 			{
 				socket = new Socket(editTextAddress.getText().toString(), Integer.parseInt(editTextPort.getText().toString()) );
-				connexion.append("Connected to server\n");
+				
 				//in = new BufferedReader (new InputStreamReader (socket.getInputStream()));
 				r = new DataInputStream(socket.getInputStream());
 				out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()), 1);
